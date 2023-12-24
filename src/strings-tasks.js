@@ -241,10 +241,7 @@ function endsWith(str, substr) {
  *   formatTime(0, 0) => "00:00"
  */
 function formatTime(minutes, seconds) {
-  return `${String(minutes).padStart(2, 0)} : ${String(seconds).padStart(
-    2,
-    0
-  )}`;
+  return `${String(minutes).padStart(2, 0)}:${String(seconds).padStart(2, 0)}`;
 }
 
 /**
@@ -334,7 +331,7 @@ function countVowels(str) {
  *   isPalindrome('No lemon, no melon') => true
  */
 function isPalindrome(str) {
-  const line = str.replaceAll(/[W_,,]/g, '').toLowerCase();
+  const line = str.replaceAll(/[\W_]/g, '').toLowerCase();
   const reverseLine = line.split('').reverse().join('').toLowerCase();
   return line === reverseLine;
 }
@@ -395,8 +392,16 @@ function reverseWords(str) {
  *   invertCase('JavaScript is Fun') => 'jAVAsCRIPT IS fUN'
  *   invertCase('12345') => '12345'
  */
-function invertCase(/* str */) {
-  throw new Error('Not implemented');
+function invertCase(str) {
+  const arr = [];
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === str[i].toUpperCase()) {
+      arr.push(str[i].toLowerCase());
+    } else {
+      arr.push(str[i].toUpperCase());
+    }
+  }
+  return arr.join('');
 }
 
 /**
@@ -412,8 +417,8 @@ function invertCase(/* str */) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -426,8 +431,8 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.substring(7, value.length - 1);
 }
 
 /**
@@ -441,8 +446,12 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  let result = '';
+  if (str.startsWith('<') && str.endsWith('>')) {
+    result = str.slice(1, str.length - 1);
+  }
+  return result;
 }
 
 /**
@@ -460,8 +469,8 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -480,8 +489,30 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  const result = [];
+  for (let i = 0; i < str.length; i += 1) {
+    if (
+      str[i] === str[i].toUpperCase() &&
+      alphabet.includes(str[i].toLowerCase())
+    ) {
+      let index = alphabet.indexOf(str[i].toLowerCase()) + 13;
+      if (index >= 26) {
+        index -= 26;
+      }
+      result.push(alphabet[index].toUpperCase());
+    } else if (alphabet.includes(str[i])) {
+      let index = alphabet.indexOf(str[i]) + 13;
+      if (index >= 26) {
+        index -= 26;
+      }
+      result.push(alphabet[index]);
+    } else {
+      result.push(str[i]);
+    }
+  }
+  return result.join('');
 }
 
 /**
@@ -508,8 +539,62 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const deck = [
+    'A♣',
+    '2♣',
+    '3♣',
+    '4♣',
+    '5♣',
+    '6♣',
+    '7♣',
+    '8♣',
+    '9♣',
+    '10♣',
+    'J♣',
+    'Q♣',
+    'K♣',
+    'A♦',
+    '2♦',
+    '3♦',
+    '4♦',
+    '5♦',
+    '6♦',
+    '7♦',
+    '8♦',
+    '9♦',
+    '10♦',
+    'J♦',
+    'Q♦',
+    'K♦',
+    'A♥',
+    '2♥',
+    '3♥',
+    '4♥',
+    '5♥',
+    '6♥',
+    '7♥',
+    '8♥',
+    '9♥',
+    '10♥',
+    'J♥',
+    'Q♥',
+    'K♥',
+    'A♠',
+    '2♠',
+    '3♠',
+    '4♠',
+    '5♠',
+    '6♠',
+    '7♠',
+    '8♠',
+    '9♠',
+    '10♠',
+    'J♠',
+    'Q♠',
+    'K♠',
+  ];
+  return deck.indexOf(value);
 }
 
 module.exports = {
